@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="configIP" class="java.lang.String">
+		<constructor-arg index="0" value="hello" />
+	</bean>
+
+	<bean id="jingbeanConfig" class="java.util.HashMap" >
+		<constructor-arg>
+			<map>
+				<entry key="callerId">
+					<value>${jingbean.callerId}</value>
+				</entry>
+				<entry key="bussinessId">
+					<value>${jingbean.bussinessId}</value>
+				</entry>
+				<entry key="key">
+					<value>${jingbean.key}</value>
+				</entry>
+				<entry key="org">
+					<value>${jingbean.org}</value>
+				</entry>
+				<entry key="first">
+					<value>${jingbean.first}</value>
+				</entry>
+				<entry key="second">
+					<value>${jingbean.second}</value>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

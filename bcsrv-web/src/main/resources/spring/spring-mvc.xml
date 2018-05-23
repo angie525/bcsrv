@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 会自动注册 DefaultAnnotationHandlerMapping AnnotationMethodHandlerAdapter -->
+	<!-- if you use annotation you must configure following setting -->
+	<mvc:annotation-driven />
+
+	<!-- 自动扫描Controller类注解 -->
+	<!-- 属性base-package属性告诉spring要扫描的包，use-default-filters="false"表示不要使用默认的过滤器，
+	此处的默认过滤器，会扫描包含Service,Component,Repository,Controller注解修饰的类，
+	而此处我们处于示例的目的，故意将use-default-filters属性设置成了false。 -->
+	<context:component-scan base-package="com.blockchain.controller" use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<!-- 不拦截静态资源的前提条件: 这个标签起作用的前提就是需要我们把静态资源放在webapp下，而非WEB-INF下，否则还是会无效 -->
+	<!-- don't handle the static resource -->
+<!-- 	<mvc:default-servlet-handler /> -->
+
+	<!-- 使@ResponseBody注解生效，返回JSON生效 -->
+	<!-- <mvc:message-converters> <bean class="org.springframework.http.converter.StringHttpMessageConverter" 
+		/> <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" 
+		/> </mvc:message-converters> -->
+
+	<!-- 静态资源的访问 -->
+	<!-- <mvc:resources location="/angular/" mapping="/angular/**" cache-period="31556926" 
+		/> <mvc:resources location="/assets/" mapping="/assets/**" cache-period="31556926" 
+		/> <mvc:resources location="/components/" mapping="/components/**" cache-period="31556926" 
+		/> <mvc:resources location="/docs/" mapping="/docs/**" cache-period="31556926" 
+		/> <mvc:resources location="/build/" mapping="/build/**" cache-period="31556926" 
+		/> <mvc:resources location="/mustache/" mapping="/mustache/**" cache-period="31556926" 
+		/> <mvc:resources location="/frontend/" mapping="/frontend/**" cache-period="31556926" 
+		/> <mvc:resources location="/examples/" mapping="/examples/**" cache-period="31556926" 
+		/> <mvc:resources location="/dist/" mapping="/dist/**" cache-period="31556926" 
+		/> -->
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringHttpMessageConverter" /><!-- 转换器 -->
+			</list>
+		</property>
+	</bean>
+	<!-- 转换器 -->
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 视图配置（表示层） -->
+	<!-- <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="/WEB-INF/view/" /> <property name="suffix" 
+		value=".html" /> </bean> -->
+
+	<!-- velocity视图配置（表示层）开始 velocity布局 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver"><!-- VelocityViewResolver -->
+		<property name="requestContextAttribute" value="request" />
+		<property name="dateToolAttribute" value="dateTool" />
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".html" />
+		<property name="contentType">
+			<value>text/html;charset=UTF-8</value>
+		</property>
+		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+		<!-- 相对于velocityConfigurer配置中的resourceLoaderPath属性配置的路径 -->
+		<property name="layoutUrl" value="layout/default.html" />
+		<property name="allowSessionOverride" value="true" />
+		<property name="allowRequestOverride" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeRequestAttributes" value="true" />
+	</bean>
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/view/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">utf-8</prop>
+				<prop key="output.encoding">utf-8</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- velocity视图配置（表示层）结束 -->
+
+
+	<!--单点登录拦截器配置 -->
+	<!-- 单点登录springmvc 拦截器bean -->
+<!-- 	<bean id="springSSOInterceptor"
+		class="com.jd.common.springmvc.interceptor.SpringSSOInterceptor">
+		<property name="loginUrl" value="${erp.loginUrl}" />
+		<property name="ssoDomainName" value="${erp.ssoDomainName}" />
+		<property name="ssoService" ref="ssoService" />
+	</bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**/**" />
+			<ref bean="springSSOInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+</beans>
