@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		     			   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:list id="list">
+        <ref bean="fabricConfig1"/>
+    </util:list>
+
+    <bean id="fabricConfig1" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <!--chaincode-->
+                <entry key="configPath">
+                    <value>D:\workspaces\blockchain\bcsrv\bcsrv-manager\src\resources\fabric</value>
+                </entry>
+                <entry key="channelName">
+                    <value>rainchannel</value>
+                </entry>
+                <entry key="chaincodePath">
+                    <value>/root/go/src/github.com/hyperledger/fabric/rain/chaincode/go/rain</value>
+                </entry>
+                <entry key="chaincodeVersion">
+                    <value>1.0</value>
+                </entry>
+                <entry key="chaincodeName">
+                    <value>raincc</value>
+                </entry>
+
+                <!--orderer-->
+                <entry key="OrdererDomainName">
+                    <value>example.com</value>
+                </entry>
+                <entry key="ordererName">
+                    <value>orderer.example.com</value>
+                </entry>
+                <entry key="ordererLocation">
+                    <value>grpc://116.196.64.244:7050</value>
+                </entry>
+
+                <!--peer-->
+                <entry key="OrgName">
+                    <value>Org1</value>
+                </entry>
+                <entry key="OrgMSPID">
+                    <value>Org1MSP</value>
+                </entry>
+                <entry key="OrgDomainName">
+                    <value>org1.example.com</value>
+                </entry>
+                <entry key="peerName">
+                    <value>peer0.org1.example.com</value>
+                </entry>
+                <entry key="peerEventHubName">
+                    <value>peer0.org1.example.com</value>
+                </entry>
+                <entry key="peerLocation">
+                    <value>grpc://116.196.64.244:7051</value>
+                </entry>
+                <entry key="peerEventHubLocation">
+                    <value>grpc://116.196.64.244:7053</value>
+                </entry>
+                <entry key="caLocation">
+                    <value>grpc://116.196.64.244:7054</value>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
+
