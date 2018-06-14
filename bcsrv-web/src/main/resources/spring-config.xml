@@ -14,6 +14,7 @@
 		</property>
 	</bean>
 
+	<import resource="spring/fabric.xml" />
 	<import resource="spring/spring-mvc.xml" />
 	<import resource="spring/spring-context.xml" />
 	<import resource="spring/spring-service.xml" />

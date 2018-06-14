@@ -35,9 +35,9 @@ public class FabricUser implements User,Serializable{
 
     public FabricUser(String name, String org, FabricStore store){
         this.name = name;
-        this.keyValStore = store;
         this.organization = org;
-        this.keyValStoreName = toKeyValStoreName(this.name, org);
+        this.keyValStore = store;
+        this.keyValStoreName = toKeyValStoreName(this.name, this.organization);
 
         String memberStr = keyValStore.getValue(keyValStoreName);
         if (null != memberStr) {

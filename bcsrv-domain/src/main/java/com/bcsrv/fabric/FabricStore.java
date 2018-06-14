@@ -125,8 +125,8 @@ public class FabricStore {
             // 创建User，并尝试从键值存储中恢复它的状态(如果找到的话)
             fabricUser = new FabricUser(name, org, this);
             fabricUser.setMspId(mspId);
-            String certificate = new String(IOUtils.toByteArray(new FileInputStream(certificateFile)), "UTF-8");
             PrivateKey privateKey = getPrivateKeyFromBytes(IOUtils.toByteArray(new FileInputStream(privateKeyFile)));
+            String certificate = new String(IOUtils.toByteArray(new FileInputStream(certificateFile)), "UTF-8");
             fabricUser.setEnrollment(new StoreEnrollement(privateKey, certificate));
             return fabricUser;
         } catch (IOException e) {

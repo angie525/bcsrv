@@ -243,7 +243,7 @@ public class ChaincodeManager {
         Collection<ProposalResponse> successful = new LinkedList<>();
         Collection<ProposalResponse> failed = new LinkedList<>();
 
-        /// Send transaction proposal to all peers
+        /// Send transaction proposal to all peers 请求的交易提案
         TransactionProposalRequest transactionProposalRequest = client.newTransactionProposalRequest();
         transactionProposalRequest.setChaincodeID(chaincodeID);
         transactionProposalRequest.setFcn(fcn);

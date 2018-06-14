@@ -18,13 +18,10 @@ import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     private ChaincodeManager manager;
+    String directorys = "D:\\workspaces\\blockchain\\bcsrv\\bcsrv-manager\\src\\resources\\fabric";
 
     private static App instance = null;
 
@@ -60,26 +57,20 @@ public class App
      * @return 节点服务器配置
      */
     private FabricConfig getConfig() {
-        String rootPath = "D:\\workspaces\\blockchain\\bcsrv\\bcsrv-manager\\src\\resources\\fabric";
-        FabricConfig config = new FabricConfig(rootPath);
+        FabricConfig config = new FabricConfig(directorys);
         config.setOrderers(getOrderers());
         config.setPeers(getPeers());
-//        config.setChaincode(getChaincode("foo", "example_cc_go",
-//                "/github.com/example_cc", "1"));d
         config.setChaincode(getChaincode("mychannel", "mycc",
-                "/root/go/src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02",
-                //"/root/go/src/github.com/hyperledger/fabric-sample-with-kafka-master/first-network/examples/chaincode/chaincode_example02/go",
-                "1.0"));
-        config.setChannelArtifactsPath(getChannleArtifactsPath());
-        config.setCryptoConfigPath(getCryptoConfigPath());
+                "/root/go/src/github.com/hyperledger/fabric/rain/chaincode/go/chaincode_example02","1.0"));
+//        config.setChannelArtifactsPath(getChannleArtifactsPath());
+//        config.setCryptoConfigPath(getCryptoConfigPath());
         return config;
     }
 
     private Orderers getOrderers() {
         Orderers orderer = new Orderers();
         orderer.setOrdererDomainName("example.com");
-        orderer.addOrderer("orderer.example.com", "grpc://116.196.64.240:7050");
-        //orderer.addOrderer("orderer.example.com", "grpc://116.196.64.240:7050");
+        orderer.addOrderer("orderer.example.com", "grpc://116.196.64.244:7050");
         return orderer;
     }
 
@@ -93,8 +84,8 @@ public class App
         peers.setOrgName("Org1");
         peers.setOrgMSPID("Org1MSP");
         peers.setOrgDomainName("org1.example.com");
-        peers.addPeer("peer0.org1.example.com", "peer0.org1.example.com", "grpc://116.196.64.241:7051",
-                "grpc://116.196.64.241:7053", "grpc://116.196.64.241:7054");
+        peers.addPeer("peer0.org1.example.com", "peer0.org1.example.com", "grpc://116.196.64.244:7051",
+                "grpc://116.196.64.244:7053", "grpc://116.196.64.244:7054");
 //        peers.addPeer("peer0.org2.example.com", "peer0.org2.example.com", "grpc://116.196.125.231:9051",
 //                "grpc://116.196.125.231:9053", "http://116.196.125.231:9054");
         return peers;
@@ -129,44 +120,33 @@ public class App
      *
      * @return /WEB-INF/classes/fabric/channel-artifacts/
      */
-    private String getChannleArtifactsPath() {
-        //  String directorys = FabricManager.class.getClassLoader().getResource("fabric").getFile();
-        //String directorys = "/usr/local/pandora-sdk/pandorasdk-sdk/src/main/resources/fabric";
-        String directorys = "d:/WorkSpaces/blockchain/pandora-sdk1/pandorasdk-sdk/src/main/resources/fabric";
-        // String directorys = "E:\\demo\\pandora-sdk\\fabric-sdk-java\\src\\resources\\fabric";
-        System.out.println("directorys = " + directorys);
-        File directory = new File(directorys);
-        System.out.println("directory = " + directory.getPath());
-        return directory.getPath() + "/channel-artifacts/";
-    }
+//    private String getChannleArtifactsPath() {
+//        //  String directorys = FabricManager.class.getClassLoader().getResource("fabric").getFile();
+//        System.out.println("directorys = " + directorys);
+//        File directory = new File(directorys);
+//        System.out.println("directory = " + directory.getPath());
+//        return directory.getPath() + "/channel-artifacts/";
+//    }
 
     /**
      * 获取crypto-config配置路径
      *
      * @return /WEB-INF/classes/fabric/crypto-config/
      */
-    private String getCryptoConfigPath() {
-        // String directorys = FabricManager.class.getClassLoader().getResource("fabric").getFile();
-        //String directorys = "/usr/local/pandora-sdk/pandorasdk-sdk/src/main/resources/fabric";
-        String directorys = "d:/WorkSpaces/blockchain/pandora-sdk1/pandorasdk-sdk/src/main/resources/fabric";
-
-        // String directorys = "E:\\demo\\pandora-sdk\\fabric-sdk-java\\src\\resources\\fabric";
-        System.out.println("directorys = " + directorys);
-        File directory = new File(directorys);
-        System.out.println("directory = " + directory.getPath());
-        return directory.getPath() + "/crypto-config/";
-    }
+//    private String getCryptoConfigPath() {
+//        System.out.println("directorys = " + directorys);
+//        File directory = new File(directorys);
+//        System.out.println("directory = " + directory.getPath());
+//        return directory.getPath() + "/crypto-config/";
+//    }
 
     public static void main(String[] a){
         queryA();
-        //queryB();
-
+//        queryB();
 //        invoke();
-
 //        queryA();
-        // queryB();
-
-        //     queryHistory();
+//        queryB();
+//        queryHistory();
     }
 
     public static void queryA(){

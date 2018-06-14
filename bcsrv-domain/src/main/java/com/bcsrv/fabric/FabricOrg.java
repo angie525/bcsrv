@@ -14,6 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
+import java.util.function.Predicate;
+
 
 /**
  * @Auther: xinyanfei
@@ -23,36 +25,63 @@ import java.util.*;
 
 public class FabricOrg {
 
+
     private static Logger log = Logger.getLogger(FabricOrg.class);
 
-    /** 名称 */
+    /**
+     * 名称
+     */
     private String name;
-    /** 会员id */
+    /**
+     * 会员id
+     */
     private String mspid;
-    /** ca 客户端 */
+    /**
+     * ca 客户端
+     */
     private HFCAClient caClient;
 
-    /** 用户集合 */
+    /**
+     * 用户集合
+     */
     Map<String, User> userMap = new HashMap<>();
-    /** 本地节点集合 */
+    /**
+     * 本地节点集合
+     */
     Map<String, String> peerLocations = new HashMap<>();
-    /** 本地排序服务集合 */
+    /**
+     * 本地排序服务集合
+     */
     Map<String, String> ordererLocations = new HashMap<>();
-    /** 本地事件集合 */
+    /**
+     * 本地事件集合
+     */
     Map<String, String> eventHubLocations = new HashMap<>();
-    /** 节点集合 */
+    /**
+     * 节点集合
+     */
     Set<Peer> peers = new HashSet<>();
-    /** 联盟管理员用户 */
+    /**
+     * 联盟管理员用户
+     */
     private FabricUser admin;
-    /** 本地 ca */
+    /**
+     * 本地 ca
+     */
     private String caLocation;
-    /** ca 配置 */
+    /**
+     * ca 配置
+     */
     private Properties caProperties = null;
 
-    /** 联盟单节点管理员用户 */
+    /**
+     * 联盟单节点管理员用户
+     */
     private FabricUser peerAdmin;
 
-    /** 域名名称 */
+    /**
+     * 域名名称
+     */
     private String domainName;
 
     public FabricOrg(Peers peers, Orderers orderers, FabricStore fabricStore, String cryptoConfigPath)
@@ -98,8 +127,7 @@ public class FabricOrg {
     /**
      * 设置联盟管理员用户
      *
-     * @param admin
-     *            联盟管理员用户
+     * @param admin 联盟管理员用户
      */
     public void setAdmin(FabricUser admin) {
         this.admin = admin;
@@ -117,8 +145,7 @@ public class FabricOrg {
     /**
      * 设置本地ca
      *
-     * @param caLocation
-     *            本地ca
+     * @param caLocation 本地ca
      */
     public void setCALocation(String caLocation) {
         this.caLocation = caLocation;
@@ -136,10 +163,8 @@ public class FabricOrg {
     /**
      * 添加本地节点
      *
-     * @param name
-     *            节点key
-     * @param location
-     *            节点
+     * @param name     节点key
+     * @param location 节点
      */
     public void addPeerLocation(String name, String location) {
         peerLocations.put(name, location);
@@ -148,10 +173,8 @@ public class FabricOrg {
     /**
      * 添加本地组织
      *
-     * @param name
-     *            组织key
-     * @param location
-     *            组织
+     * @param name     组织key
+     * @param location 组织
      */
     public void addOrdererLocation(String name, String location) {
         ordererLocations.put(name, location);
@@ -160,10 +183,8 @@ public class FabricOrg {
     /**
      * 添加本地事件
      *
-     * @param name
-     *            事件key
-     * @param location
-     *            事件
+     * @param name     事件key
+     * @param location 事件
      */
     public void addEventHubLocation(String name, String location) {
         eventHubLocations.put(name, location);
@@ -172,8 +193,7 @@ public class FabricOrg {
     /**
      * 获取本地节点
      *
-     * @param name
-     *            节点key
+     * @param name 节点key
      * @return 节点
      */
     public String getPeerLocation(String name) {
@@ -183,8 +203,7 @@ public class FabricOrg {
     /**
      * 获取本地组织
      *
-     * @param name
-     *            组织key
+     * @param name 组织key
      * @return 组织
      */
     public String getOrdererLocation(String name) {
@@ -194,8 +213,7 @@ public class FabricOrg {
     /**
      * 获取本地事件
      *
-     * @param name
-     *            事件key
+     * @param name 事件key
      * @return 事件
      */
     public String getEventHubLocation(String name) {
@@ -259,8 +277,7 @@ public class FabricOrg {
     /**
      * 设置 ca 客户端
      *
-     * @param caClient
-     *            ca 客户端
+     * @param caClient ca 客户端
      */
     public void setCAClient(HFCAClient caClient) {
         this.caClient = caClient;
@@ -278,8 +295,7 @@ public class FabricOrg {
     /**
      * 向用户集合中添加用户
      *
-     * @param user
-     *            用户
+     * @param user 用户
      */
     public void addUser(FabricUser user) {
         userMap.put(user.getName(), user);
@@ -288,8 +304,7 @@ public class FabricOrg {
     /**
      * 从用户集合根据名称获取用户
      *
-     * @param name
-     *            名称
+     * @param name 名称
      * @return 用户
      */
     public User getUser(String name) {
@@ -299,8 +314,7 @@ public class FabricOrg {
     /**
      * 向节点集合中添加节点
      *
-     * @param peer
-     *            节点
+     * @param peer 节点
      */
     public void addPeer(Peer peer) {
         peers.add(peer);
@@ -309,8 +323,7 @@ public class FabricOrg {
     /**
      * 设置 ca 配置
      *
-     * @param caProperties
-     *            ca 配置
+     * @param caProperties ca 配置
      */
     public void setCAProperties(Properties caProperties) {
         this.caProperties = caProperties;
@@ -328,8 +341,7 @@ public class FabricOrg {
     /**
      * 设置联盟单节点管理员用户
      *
-     * @param peerAdmin
-     *            联盟单节点管理员用户
+     * @param peerAdmin 联盟单节点管理员用户
      */
     public void setPeerAdmin(FabricUser peerAdmin) {
         this.peerAdmin = peerAdmin;
@@ -348,7 +360,6 @@ public class FabricOrg {
      * 设置域名名称
      *
      * @param
-     *
      */
     public void setDomainName(String domainName) {
         this.domainName = domainName;
@@ -367,7 +378,6 @@ public class FabricOrg {
      * 从指定路径中获取后缀为 _sk 的文件，且该路径下有且仅有该文件
      *
      * @param
-     *
      * @return File
      */
     private File findFileSk(File directory) {
@@ -380,5 +390,57 @@ public class FabricOrg {
         }
         return matches[0];
     }
+
+    public static void filter(List<String> names, Predicate<String> condition) {
+        for (String name : names) {
+            if (condition.test(name)) {
+                System.out.println(name + " ");
+            }
+        }
+    }
+
+    // 更好的办法
+    public static void filter2(List<String> names, Predicate<String> condition) {
+        names.stream().filter((name) -> (condition.test(name))).forEach((name) -> {
+            System.out.println(name + " ");
+        });
+    }
+
+    public static void main(String[] sa) {
+        List list = new ArrayList();
+        list.add("a1");
+        list.add("c");
+        list.add("b");
+        Collections.sort(list);
+        System.out.println(list);
+
+
+        // Java 8之后：
+        List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
+        //  features.forEach(n -> System.out.println(n));
+
+// 使用Java 8的方法引用更方便，方法引用由::双冒号操作符标示，
+// 看起来像C++的作用域解析运算符
+        features.forEach(System.out::println);
+
+
+        List<String> languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
+
+        System.out.println("Languages which starts with J :");
+        filter(languages, (str) -> str.startsWith("J"));
+
+        System.out.println("Languages which ends with a ");
+        filter(languages, (str) -> str.endsWith("a"));
+//
+//        System.out.println("Print all languages :");
+//        filter(languages, (str)->true);
+//
+//        System.out.println("Print no language : ");
+//        filter(languages, (str)->false);
+//
+        System.out.println("Print language whose length greater than 4:");
+        filter(languages, (str) -> str.length() > 4);
+    }
+
 
 }
